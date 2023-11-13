@@ -14,5 +14,5 @@ Implements a custom ping and health check
 [Helmet](https://helmetjs.github.io/) helps secure Express apps by setting HTTP response headers and/or removing them
 
 
-## AppRouer
+## AppRouter
 Provides support for CSRF and CORS
