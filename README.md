@@ -1,25 +1,18 @@
-# Getting Started
+# Template App
 
-Welcome to your new project.
+A simple template CAP App (without a UI5 App) to be used as a base project for new apps
 
-It contains these folders and files, following our recommended project layout:
+Incorporates Best Practices for:
+- Security
+- Observability
 
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`package.json` | project metadata and configuration
-`readme.md` | this getting started guide
+## Observability
+Implements a custom ping and health check
 
 
-## Next Steps
-
-- Open a new terminal and run `cds watch` 
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start adding content, for example, a [db/schema.cds](db/schema.cds).
+## Helmet
+[Helmet](https://helmetjs.github.io/) helps secure Express apps by setting HTTP response headers and/or removing them
 
 
-## Learn More
-
-Learn more at https://cap.cloud.sap/docs/get-started/.
+## AppRouer
+Provides support for CSRF and CORS
