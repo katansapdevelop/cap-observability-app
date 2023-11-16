@@ -47,9 +47,9 @@ cds.on('bootstrap', app => {
 
 
 /*
-* Batch job to aggregate the request data and delete logs older than a day every 30 seconds
+* Batch job to aggregate the request data and delete logs older than a day every 60 seconds
 */
-cds.spawn({ user: cds.User.privileged, every: 10000 /* ms */ }, async () => {
+cds.spawn({ user: cds.User.privileged, every: 60000 /* ms */ }, async () => {
     const currentTime = new Date();
     const yesterday = new Date(currentTime - (1000 * 3600 * 24))
     const currentTimeIso = currentTime.toISOString();
