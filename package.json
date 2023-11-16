@@ -11,9 +11,19 @@
     "helmet": "^7.1.0"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1"
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7.4.0"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds watch"
+  },
+  "cds": {
+    "requires": {
+      "metrics": {
+        "kind": "odata",
+        "model": "srv/metrics-service",
+        "service": "logicalstar.srv.BookMetricsService"
+      }
+    }
   }
 }

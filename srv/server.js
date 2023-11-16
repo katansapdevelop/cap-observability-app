@@ -1,5 +1,7 @@
 
 const helmet = require('helmet');
+const LOG = cds.log('logicalstar');
+const os = require("os");
 
 cds.on('bootstrap', app => {
 
@@ -33,12 +35,91 @@ cds.on('bootstrap', app => {
 
 
         // Set the reponse
-        let responseBody = { "dbStatus": dbStatus};
-        if(message){
+        let responseBody = { "dbStatus": dbStatus,
+          "memoryUsage": os.totalmem() - os.freemem()
+        };
+        if (message) {
             responseBody.message = message;
         }
         res.status(status).send(responseBody)
     })
 })
 
-module.exports = cds.server 
+
+/*
+* Batch job to aggregate the request data and delete logs older than a day every 30 seconds
+*/
+cds.spawn({ user: cds.User.privileged, every: 10000 /* ms */ }, async () => {
+    const currentTime = new Date();
+    const yesterday = new Date(currentTime - (1000 * 3600 * 24))
+    const currentTimeIso = currentTime.toISOString();
+    LOG.info("Batch job for aggregation ran at: " + currentTime);
+
+    const db = await cds.connect.to('db');
+
+    // Get last record (If no last record get all logs from table)
+    let lastAggregationQuery = SELECT.from('logicalstar.metrics.AggregatedMetrics').limit(1).orderBy('timeFrom desc');
+    let lastAggregation = [];
+    lastAggregation = await db.run(lastAggregationQuery);
+
+    const timeToIso = currentTime;
+    let timeFromIso = yesterday.toISOString(); // Default to the last 24 hours
+    if (lastAggregation.length > 0) {
+        LOG.info("Found Aggergation Record with ID: " + lastAggregation[0].ID);
+        timeFromIso = new Date( new Date(lastAggregation[0].timeTo) + 1000).toISOString();
+    } else {
+        LOG.info("No existing aggregations found.  Reading all HTTP requests for the last 24 hours to create initial aggregated record");
+    }
+
+    // Run query to aggregate data for time
+    let httpRequestsQuery = '';
+    httpRequestsQuery = SELECT.from('logicalstar.metrics.HTTPRequestLog').where({ createdAt: { '>': timeFromIso }, and: { createdAt: { '<=': timeToIso } } });
+    httpRequestsToAggregate = await db.run(httpRequestsQuery);
+
+    /*
+    // Aggregate Records and store in DB
+    const aggregatedRecordTemplate = {
+        "ID": null,
+        "entity": null,
+        "accessCount": 0,
+        "timeFrom": timeFromIso,
+        "timeTo": timeToIso
+    };
+    let aggregatedRecordsToAdd = {}
+    for (let i = 0; i < httpRequestsToAggregate.length; i++) {
+        const httpRequest = httpRequestsToAggregate[i];
+        let aggregatedRecord = aggregatedRecordsToAdd[httpRequest.entity];
+        if(! aggregatedRecord){
+            aggregatedRecord = aggregatedRecordTemplate;
+            aggregatedRecord.entity = httpRequest.entity;
+        }
+        aggregatedRecord.accessCount = aggregatedRecord.accessCount + 1;
+        aggregatedRecordsToAdd[httpRequest.entity] = aggregatedRecord;
+    }
+
+    const aggregatedRecordEntities = Object.keys(aggregatedRecordsToAdd)
+    let aggregatedRecordsToAddArray = [];
+    for (let i = 0; i < aggregatedRecordEntities.length; i++) {
+        aggregatedRecordsToAddArray = aggregatedRecordsToAdd[aggregatedRecordEntities[i]];
+    }
+    
+    if(aggregatedRecordsToAddArray.length > 0){
+        await INSERT.into('logicalstar.metrics.AggregatedMetrics', aggregatedRecordsToAddArray);
+    }
+    */
+
+    // Aggregate Records and store in DB
+    const aggregatedRecord = {
+        "accessCount": httpRequestsToAggregate.length,
+        "timeFrom": timeFromIso,
+        "timeTo": timeToIso
+    };
+    await INSERT.into('logicalstar.metrics.AggregatedMetrics', aggregatedRecord);
+
+    
+    // Delete HTTP Records older than 24 hours
+    httpRequestsQuery = DELETE.from('logicalstar.metrics.HTTPRequestLog').where({ createdAt: { '<=': yesterday.toISOString() }});
+    httpRequestsToAggregate = await db.run(httpRequestsQuery);
+})
+
+module.exports = cds.server

@@ -7,7 +7,7 @@ Incorporates Best Practices for:
 - Observability
 
 ## Observability
-Implements a custom ping and health check
+Implements a custom ping and health check.  Implements logging use the CDS log service, which natively can be used to ingest into Kibana
 
 
 ## Helmet

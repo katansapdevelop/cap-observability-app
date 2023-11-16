@@ -1,3 +1,4 @@
+namespace logicalstar.srv;
 using { logicalstar.bookshop as db } from '../db/schema';
 service AdminService @(requires:'admin', path:'/admin') {
   entity Books as projection on db.Books;
