@@ -65,7 +65,7 @@ cds.spawn({ user: cds.User.privileged, every: 10000 /* ms */ }, async () => {
     const timeToIso = currentTime;
     let timeFromIso = yesterday.toISOString(); // Default to the last 24 hours
     if (lastAggregation.length > 0) {
-        LOG.info("Found Aggergation Record with ID: " + lastAggregation[0].ID);
+        LOG.info("Found Aggregation Record with ID: " + lastAggregation[0].ID);
         timeFromIso = new Date( new Date(lastAggregation[0].timeTo) + 1000).toISOString();
     } else {
         LOG.info("No existing aggregations found.  Reading all HTTP requests for the last 24 hours to create initial aggregated record");
