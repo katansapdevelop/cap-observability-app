@@ -76,38 +76,6 @@ cds.spawn({ user: cds.User.privileged, every: 10000 /* ms */ }, async () => {
     httpRequestsQuery = SELECT.from('logicalstar.metrics.HTTPRequestLog').where({ createdAt: { '>': timeFromIso }, and: { createdAt: { '<=': timeToIso } } });
     httpRequestsToAggregate = await db.run(httpRequestsQuery);
 
-    /*
-    // Aggregate Records and store in DB
-    const aggregatedRecordTemplate = {
-        "ID": null,
-        "entity": null,
-        "accessCount": 0,
-        "timeFrom": timeFromIso,
-        "timeTo": timeToIso
-    };
-    let aggregatedRecordsToAdd = {}
-    for (let i = 0; i < httpRequestsToAggregate.length; i++) {
-        const httpRequest = httpRequestsToAggregate[i];
-        let aggregatedRecord = aggregatedRecordsToAdd[httpRequest.entity];
-        if(! aggregatedRecord){
-            aggregatedRecord = aggregatedRecordTemplate;
-            aggregatedRecord.entity = httpRequest.entity;
-        }
-        aggregatedRecord.accessCount = aggregatedRecord.accessCount + 1;
-        aggregatedRecordsToAdd[httpRequest.entity] = aggregatedRecord;
-    }
-
-    const aggregatedRecordEntities = Object.keys(aggregatedRecordsToAdd)
-    let aggregatedRecordsToAddArray = [];
-    for (let i = 0; i < aggregatedRecordEntities.length; i++) {
-        aggregatedRecordsToAddArray = aggregatedRecordsToAdd[aggregatedRecordEntities[i]];
-    }
-    
-    if(aggregatedRecordsToAddArray.length > 0){
-        await INSERT.into('logicalstar.metrics.AggregatedMetrics', aggregatedRecordsToAddArray);
-    }
-    */
-
     // Aggregate Records and store in DB
     const aggregatedRecord = {
         "accessCount": httpRequestsToAggregate.length,
