@@ -8,14 +8,18 @@
   "dependencies": {
     "@sap/cds": "^7",
     "express": "^4",
-    "helmet": "^7.1.0"
+    "helmet": "^7.1.0",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "passport": "^0"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7.4.0"
   },
   "scripts": {
-    "start": "cds watch"
+    "start": "cds-serve",
+    "debug": "cds watch"
   },
   "cds": {
     "requires": {
@@ -23,7 +27,14 @@
         "kind": "odata",
         "model": "srv/metrics-service",
         "service": "logicalstar.srv.BookMetricsService"
+      },
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
       }
+    },
+    "features": {
+      "kibana_formatter": true
     }
   }
 }

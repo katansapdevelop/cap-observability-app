@@ -4,7 +4,7 @@ service AdminService @(requires:'admin', path:'/admin') {
   entity Books as projection on db.Books;
   entity Authors as projection on db.Authors;
   entity BookAuthors as select
-  a.ID,
+  key a.ID,
   a.name,
   b.title
   from db.Books as b 

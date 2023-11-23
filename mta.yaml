@@ -1,0 +1,64 @@
+_schema-version: '3.1'
+ID: cap-books-app
+version: 1.0.0
+description: "Books Demo App"
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx cds build --production
+modules:
+  - name: cap-template-app-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: cap-template-app-auth
+      - name: cap-template-app-db
+      - name: cap-template-app-destination
+      - name: cap-template-app-logging
+
+  - name: cap-template-app-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: cap-template-app-db
+
+resources:
+  - name: cap-template-app-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: cap-template-app-${org}-${space}
+        tenant-mode: dedicated
+  - name: cap-template-app-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      config:
+        schema: BOOKS
+      service: hana
+      service-plan: hdi-shared
+  - name: cap-template-app-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+  - name: cap-template-app-logging
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: lite
