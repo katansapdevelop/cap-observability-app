@@ -26,12 +26,16 @@
       "metrics": {
         "kind": "odata",
         "model": "srv/metrics-service",
-        "service": "logicalstar.srv.BookMetricsService"
+        "service": "logicalstar.srv.BookMetricsService",
+        "credentials":{
+          "destination": "cap-template-app-destination"
+        }
       },
       "[production]": {
         "db": "hana",
         "auth": "xsuaa"
-      }
+      },
+      "destinations": true
     },
     "features": {
       "kibana_formatter": true
