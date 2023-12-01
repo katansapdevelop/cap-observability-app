@@ -11,6 +11,12 @@
       "type": "node-terminal"
     },
     
+    {
+      "command": "npm run debug-hybrid",
+      "name": "Run npm debug hybrid",
+      "request": "launch",
+      "type": "node-terminal"
+    },
 
     {
       "name": "cds watch",

@@ -62,7 +62,7 @@ cds.spawn({ user: cds.User.privileged, every: 60000 /* ms */ }, async () => {
     let lastAggregation = [];
     lastAggregation = await db.run(lastAggregationQuery);
 
-    const timeToIso = currentTime;
+    const timeToIso = currentTimeIso;
     let timeFromIso = yesterday.toISOString(); // Default to the last 24 hours
     if (lastAggregation.length > 0) {
         LOG.info("Found Aggregation Record with ID: " + lastAggregation[0].ID);

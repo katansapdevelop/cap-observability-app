@@ -1,16 +1,18 @@
 {
   "name": "cap-template-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple CAP project.",
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.8.1",
+    "@sap-cloud-sdk/resilience": "^3.8.1",
     "@sap/cds": "^7",
-    "express": "^4",
-    "helmet": "^7.1.0",
     "@sap/cds-hana": "^2",
     "@sap/xssec": "^3",
+    "express": "^4",
+    "helmet": "^7.1.0",
     "passport": "^0"
   },
   "devDependencies": {
@@ -19,7 +21,8 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "debug": "cds watch"
+    "debug": "cds watch",
+    "debug-hybrid": "cds watch --profile hybrid"
   },
   "cds": {
     "requires": {
@@ -27,8 +30,12 @@
         "kind": "odata",
         "model": "srv/metrics-service",
         "service": "logicalstar.srv.BookMetricsService",
-        "credentials":{
-          "destination": "cap-template-app-destination"
+        "[production]": {
+          "credentials": {
+            "destination":"cap-template-app-destination",
+            "path":"/bookMetrics",
+            "forwardAuthToken": true
+          }
         }
       },
       "[production]": {
