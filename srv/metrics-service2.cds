@@ -2,17 +2,15 @@ namespace logicalstar.srv;
 
 using {logicalstar.metrics as db} from '../db/metrics';
 
-service BookMetricsService @(
+service BookMetricsService2 @(
     requires: 'authenticated-user',
-    path    : '/bookMetrics'
+    path    : '/bookMetrics2'
 ) {
     @readonly
     entity HTTPRequestLog as projection on db.HTTPRequestLog;
 
-
     @readonly
     entity Metrics        as projection on db.AggregatedMetrics;
-
 
     // Types
     type httpRequest {
@@ -21,6 +19,6 @@ service BookMetricsService @(
     };
 
     // Actions
-
     action logRequest(request : httpRequest);
+
 }

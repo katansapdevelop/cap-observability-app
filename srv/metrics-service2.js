@@ -1,6 +1,6 @@
 const LOG = cds.log('logicalstar');
 
-class BookMetricsService extends cds.ApplicationService {
+class BookMetricsService2 extends cds.ApplicationService {
     async init() {
       const { HTTPRequestLog } = this.entities;
       
@@ -11,4 +11,4 @@ class BookMetricsService extends cds.ApplicationService {
       return super.init()
     }
   }
-  module.exports = BookMetricsService
+  module.exports = BookMetricsService2
