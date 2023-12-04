@@ -12,15 +12,4 @@ service BookMetricsService @(
 
     @readonly
     entity Metrics        as projection on db.AggregatedMetrics;
-
-
-    // Types
-    type httpRequest {
-        entity : String;
-        action : String
-    };
-
-    // Actions
-
-    action logRequest(request : httpRequest);
 }

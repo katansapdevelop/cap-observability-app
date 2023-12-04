@@ -24,7 +24,6 @@ modules:
     requires:
       - name: cap-template-app-auth
       - name: cap-template-app-db
-      - name: cap-template-app-destination
       - name: cap-template-app-logging
 
   - name: cap-template-app-db-deployer
@@ -52,11 +51,6 @@ resources:
         schema: BOOKS
       service: hana
       service-plan: hdi-shared
-  - name: cap-template-app-destination
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: destination
-      service-plan: lite
   - name: cap-template-app-logging
     type: org.cloudfoundry.managed-service
     parameters:

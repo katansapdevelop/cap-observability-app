@@ -26,23 +26,10 @@
   },
   "cds": {
     "requires": {
-      "metrics": {
-        "kind": "odata",
-        "model": "srv/metrics-service",
-        "service": "logicalstar.srv.BookMetricsService",
-        "[production]": {
-          "credentials": {
-            "destination":"cap-template-app-destination",
-            "path":"/bookMetrics",
-            "forwardAuthToken": true
-          }
-        }
-      },
       "[production]": {
         "db": "hana",
         "auth": "xsuaa"
-      },
-      "destinations": true
+      }
     },
     "features": {
       "kibana_formatter": true
