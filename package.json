@@ -17,12 +17,19 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
-    "@sap/cds-dk": "^7.4.0"
+    "@sap/cds-dk": "^7.4.0",
+    "chai": "^4.3.10",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "jest": "^29.7.0",
+    "mocha": "^10.2.0"
   },
   "scripts": {
     "start": "cds-serve",
     "debug": "cds watch",
-    "debug-hybrid": "cds watch --profile hybrid"
+    "debug-hybrid": "cds watch --profile hybrid",
+    "jest": "npx jest --silent",
+    "test": "npm run jest"
   },
   "cds": {
     "requires": {

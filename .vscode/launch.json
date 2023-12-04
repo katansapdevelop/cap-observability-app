@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "npm run test",
+      "name": "Run npm test",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    
+    {
       "command": "npm run debug",
       "name": "Run npm debug",
       "request": "launch",
