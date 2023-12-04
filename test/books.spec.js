@@ -28,4 +28,22 @@ describe('Test Metrics service', () => {
         expect(httpRequests.data.value).to.be.an('array');
         expect(httpRequests.data.value).to.have.lengthOf(3);
     });
+
+
+    const wait = (seconds) => {
+        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
+
+
+    it('should return all metrics', async () => {
+        await wait(20);
+        const metrics = await GET `/bookMetrics/Metrics`;
+        expect(metrics.data).to.be.an('object');
+        expect(metrics.data.value).to.be.an('array');
+    }, 30000);
+
+    
+
 });
+
+
