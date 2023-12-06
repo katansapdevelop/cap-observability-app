@@ -2,7 +2,7 @@
   "name": "cap-template-app",
   "version": "1.0.1",
   "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
+  "repository": "https://github.com/katansapdevelop/cap-template-app",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
