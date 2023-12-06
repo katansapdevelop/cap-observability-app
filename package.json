@@ -13,7 +13,8 @@
     "@sap/xssec": "^3",
     "express": "^4",
     "helmet": "^7.1.0",
-    "passport": "^0"
+    "passport": "^0",
+    "passport-http": "^0.3.0"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",

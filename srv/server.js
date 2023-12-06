@@ -3,17 +3,22 @@ const helmet = require('helmet');
 const LOG = cds.log('logicalstar');
 const os = require("os");
 
+const passport = require('passport');
+const BasicStrategy = require('passport-http').BasicStrategy;
+
+
+
 cds.on('bootstrap', app => {
 
     app.use(helmet())
     // Reduce finger printing
     app.disable('x-powered-by')
 
-    app.get('/ping', (_, res) => {
+    app.get('/ping', passport.authenticate('basic', { session: false }), (_, res) => {
         res.status(200).send('OK')
     })
 
-    app.get('/health', async (_, res) => {
+    app.get('/health', passport.authenticate('basic', { session: false }),async (_, res) => {
 
         // Check DB Connection
         let dbStatus = 'Running';
@@ -31,18 +36,29 @@ cds.on('bootstrap', app => {
 
         // Add checks for other used services
 
-
-
-
         // Set the reponse
-        let responseBody = { "dbStatus": dbStatus,
-          "memoryUsage": os.totalmem() - os.freemem()
+        let responseBody = {
+            "dbStatus": dbStatus,
+            "memoryUsage": os.totalmem() - os.freemem()
         };
         if (message) {
             responseBody.message = message;
         }
         res.status(status).send(responseBody)
     })
+
+    passport.use(new BasicStrategy(
+        function (username, password, done) {
+            // Replace this with your actual authentication logic
+            if (username === 'health' && password === 'password') {
+                return done(null, { username: 'health' });
+            } else {
+                return done(null, false);
+            }
+        }
+    ));
+
+    app.use(passport.initialize());
 })
 
 
@@ -66,7 +82,7 @@ cds.spawn({ user: cds.User.privileged, every: 60000 /* ms */ }, async () => {
     let timeFromIso = yesterday.toISOString(); // Default to the last 24 hours
     if (lastAggregation.length > 0) {
         LOG.info("Found Aggregation Record with ID: " + lastAggregation[0].ID);
-        timeFromIso = new Date( new Date(lastAggregation[0].timeTo) + 1000).toISOString();
+        timeFromIso = new Date(new Date(lastAggregation[0].timeTo) + 1000).toISOString();
     } else {
         LOG.info("No existing aggregations found.  Reading all HTTP requests for the last 24 hours to create initial aggregated record");
     }
@@ -84,9 +100,9 @@ cds.spawn({ user: cds.User.privileged, every: 60000 /* ms */ }, async () => {
     };
     await INSERT.into('logicalstar.metrics.AggregatedMetrics', aggregatedRecord);
 
-    
+
     // Delete HTTP Records older than 24 hours
-    httpRequestsQuery = DELETE.from('logicalstar.metrics.HTTPRequestLog').where({ createdAt: { '<=': yesterday.toISOString() }});
+    httpRequestsQuery = DELETE.from('logicalstar.metrics.HTTPRequestLog').where({ createdAt: { '<=': yesterday.toISOString() } });
     httpRequestsToAggregate = await db.run(httpRequestsQuery);
 })
 

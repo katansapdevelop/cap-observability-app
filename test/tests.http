@@ -23,3 +23,14 @@ Authorization: Basic alice:
 GET http://localhost:4004/bookMetrics/Metrics
 Accept: application/json
 Authorization: Basic alice:
+
+
+### Get Health
+GET http://localhost:4004/health
+Accept: application/json
+Authorization: Basic health:password
+
+### Get Ping
+GET http://localhost:4004/ping
+Accept: application/json
+Authorization: Basic health:password

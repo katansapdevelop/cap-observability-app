@@ -1,7 +1,6 @@
 const cds = require('@sap/cds');
 
 describe('Test Books service', () => {
-    let log = cds.test.log()
     const { GET, expect, axios } =  cds.test(__dirname+'/../', '--with-mocks');
     axios.defaults.auth = { username: 'alice', password: '' }
 
@@ -14,8 +13,20 @@ describe('Test Books service', () => {
 });
 
 
+    
+describe('Test Health', () => {
+    const { GET, expect, axios } =  cds.test(__dirname+'/../', '--with-mocks');
+    axios.defaults.auth = { username: 'health', password: 'password' }
+
+    it('should return health', async () => {
+        const health = await GET `/health`;
+        expect(health.data).to.be.an('object');
+        expect(health.data.dbStatus).to.equal('Running');
+    });
+});
+
+
 describe('Test Metrics service', () => {
-    let log = cds.test.log()
     const { GET, expect, axios } =  cds.test(__dirname+'/../', '--with-mocks');
     axios.defaults.auth = { username: 'alice', password: '' }
 
@@ -42,8 +53,11 @@ describe('Test Metrics service', () => {
         expect(metrics.data.value).to.be.an('array');
     }, 30000);
 
-    
 
+
+    
 });
+
+
 
 
