@@ -1,0 +1,25 @@
+
+### Get Books (Creates a log entry on read)
+GET http://localhost:4004/admin/Books
+Accept: application/json
+Authorization: Basic alice:
+
+### Get Book Authors (Creates a log entry on read)
+GET http://localhost:4004/admin/BookAuthors
+Accept: application/json
+Authorization: Basic alice:
+
+### Get Authors (Creates a log entry on read)
+GET http://localhost:4004/admin/Authors
+Accept: application/json
+Authorization: Basic alice:
+
+### Get Log Requests
+GET http://localhost:4004/bookMetrics/HTTPRequestLog
+Accept: application/json
+Authorization: Basic alice:
+
+### Get Log Requests
+GET http://localhost:4004/bookMetrics/Metrics
+Accept: application/json
+Authorization: Basic alice:

@@ -1,19 +1,45 @@
 {
   "name": "cap-template-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple CAP project.",
   "repository": "<Add your repository here>",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.8.1",
+    "@sap-cloud-sdk/resilience": "^3.8.1",
     "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
     "express": "^4",
-    "helmet": "^7.1.0"
+    "helmet": "^7.1.0",
+    "passport": "^0"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1"
+    "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7.4.0",
+    "chai": "^4.3.10",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "jest": "^29.7.0",
+    "mocha": "^10.2.0"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "debug": "cds watch",
+    "debug-hybrid": "cds watch --profile hybrid",
+    "jest": "npx jest --silent",
+    "test": "npm run jest"
+  },
+  "cds": {
+    "requires": {
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
+      }
+    },
+    "features": {
+      "kibana_formatter": true
+    }
   }
 }

@@ -5,15 +5,34 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "command": "npm run test",
+      "name": "Run npm test",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    
+    {
+      "command": "npm run debug",
+      "name": "Run npm debug",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    
+    {
+      "command": "npm run debug-hybrid",
+      "name": "Run npm debug hybrid",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+
+    {
       "name": "cds watch",
       "request": "launch",
       "type": "node",
       "cwd": "${workspaceFolder}",
       "runtimeExecutable": "cds",
       "args": [
-        "watch",
-        "--with-mocks",
-        "--in-memory?"
+        "watch"
       ],
       "skipFiles": [
         "<node_internals>/**"
