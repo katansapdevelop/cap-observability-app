@@ -39,7 +39,9 @@ cds.on('bootstrap', app => {
         // Set the reponse
         let responseBody = {
             "dbStatus": dbStatus,
-            "memoryUsage": os.totalmem() - os.freemem()
+            "TotalMemory": os.totalmem(),
+            "FreeMemory": os.freemem(),
+            "UsedMemory": os.totalmem() - os.freemem()
         };
         if (message) {
             responseBody.message = message;
