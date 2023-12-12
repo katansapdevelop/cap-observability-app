@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A simple CAP project.",
   "repository": "https://github.com/katansapdevelop/cap-template-app",
-  "license": "UNLICENSED",
+  "license": "Beerware",
   "private": true,
   "dependencies": {
     "@sap-cloud-sdk/http-client": "^3.8.1",
