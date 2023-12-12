@@ -47,7 +47,7 @@ cds.on('bootstrap', async app => {
             "TotalMemory": os.totalmem(),
             "FreeMemory": os.freemem(),
             "UsedMemory": os.totalmem() - os.freemem(),
-            "Node Version": process.version
+            "NodeVersion": process.version
         };
         if (message) {
             responseBody.message = message;
