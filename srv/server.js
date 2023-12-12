@@ -1,3 +1,4 @@
+const {readCredential} =  require('./utils/cred');
 
 const helmet = require('helmet');
 const LOG = cds.log('logicalstar');
@@ -8,7 +9,11 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 
 
 
-cds.on('bootstrap', app => {
+
+cds.on('bootstrap', async app => {
+    // Get the credentials from the credstore
+    const readCredentialResponse = await readCredential("cap-template", "password", "app-health-pwd")
+    const appPassword = readCredentialResponse.value;
 
     app.use(helmet())
     // Reduce finger printing
@@ -41,7 +46,8 @@ cds.on('bootstrap', app => {
             "dbStatus": dbStatus,
             "TotalMemory": os.totalmem(),
             "FreeMemory": os.freemem(),
-            "UsedMemory": os.totalmem() - os.freemem()
+            "UsedMemory": os.totalmem() - os.freemem(),
+            "Node Version": process.version
         };
         if (message) {
             responseBody.message = message;
@@ -50,9 +56,10 @@ cds.on('bootstrap', app => {
     })
 
     passport.use(new BasicStrategy(
-        function (username, password, done) {
-            // Replace this with your actual authentication logic
-            if (username === 'health' && password === 'password') {
+        async function (username, password, done) {
+            
+
+            if (username === 'health' && password === appPassword) {
                 return done(null, { username: 'health' });
             } else {
                 return done(null, false);

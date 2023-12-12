@@ -14,6 +14,14 @@ Implements a custom ping and health check.  Implements logging use the CDS log s
 
 Concepts taken from the Azure Cloud Design Pattern, [Monitor Instance Health](https://learn.microsoft.com/en-us/azure/architecture/patterns/health-endpoint-monitoring)
 
+## Authentication
+Credentials are created and read from the credential service.  For this app use the namespace "cap-template" and name "app-health-pwd".
+
+<img src="credential-namespace.png" width="1000">
+
+### Hybrid Testing
+Note when running hybrid testing, you need to bind the credential service local via ``` cds bind -2 cred-store:cred-store-key```.  If you have not created a keyt, you will need to do do so via ```cf create-service-key cred-store cred-store-key```
+
 
 ### Grafana Cloud
 <img src="Grafana.png" width="1000">
