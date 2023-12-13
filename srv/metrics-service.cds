@@ -11,5 +11,5 @@ service BookMetricsService @(
 
 
     @readonly
-    entity Metrics        as projection on db.AggregatedMetrics;
+    entity Metrics        as projection on db.AggregatedMetrics order by timeFrom desc;
 }
