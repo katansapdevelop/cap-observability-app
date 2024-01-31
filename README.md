@@ -1,13 +1,15 @@
-# Template App
+# Observability App
+A simple CAP App to be used to demontrate how to capture low level app metrics and then via a batch periodically aggregate metrics data exposed via a metrics service.
 
-A simple template CAP App (without a UI5 App) to be used as a base project for new apps
+The metrics data is then configured to be consumed in a grafana dashboard.
 
-Incorporates Best Practices for:
+Incorporates:
 - Security
 - Observability
 
 ![Node.js 18.18.0](https://img.shields.io/badge/Node.js-v18.18.0-green)
 ![@sap/cds 7.4.0](https://img.shields.io/badge/@sap/cds-v7.4.0-green)
+[![Issue Count](https://img.shields.io/github/issues/katansapdevelop/cap-observability-app)](https://img.shields.io/github/issues/katansapdevelop/cap-observability-app)
 
 ## Observability
 Implements a custom ping and health check.  Implements logging use the CDS log service, which natively can be used to ingest into Kibana
