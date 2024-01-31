@@ -27,6 +27,10 @@ Note when running hybrid testing, you need to bind the credential service local 
 **I also deleted the 'customer-service' prefix in the .csdrc-private.json file that was added**
 
 ### Grafana Cloud
+Grafana Cloud has a pretty comprehensive free tier avaiable to allow you to consume a significant amount of data and maintain at least 10 dashboards.
+
+I setup the following dashboard, which you can find the source json [here](/grafana/README.md).
+
 <img src="Grafana.png" width="1000">
 
 
